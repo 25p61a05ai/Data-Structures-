@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define structure for BST node
+struct Node {
+    int data;
+    struct Node* back;
+    struct Node* front;
+};
+
+// Create a new node
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->back = newNode->front = NULL;
+    return newNode;
+}
+
+// Insert into BST
+struct Node* insert(struct Node* root, int value) {
+    if (root == NULL)
+        return createNode(value);
+
+    if (value < root->data)
+        root->back = insert(root->back, value);
+    else
+        root->front = insert(root->front, value);
+
+    return root;
+}
+
+// Inorder traversal (sorted order)
+void inorder(struct Node* root) {
+    if (root != NULL) {
+        inorder(root->back);
+        printf("%d ", root->data);
+        inorder(root->front);
+    }
+}
+
+int main() {
+    int n, i, value;
+    struct Node* root = NULL;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter elements:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &value);
+        root = insert(root, value);
+    }
+
+    printf("Sorted elements:\n");
+    inorder(root);
+
+    return 0;
+}
+
+
